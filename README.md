@@ -84,7 +84,7 @@ export default new Vuex.Store({
 ```javascript
 export default new Vuex.Store({
   actions: {
-    add({commit}) {
+    add({ commit }) {
       setTimeout(() => commit('add'), 1000);
     }
   }
@@ -127,7 +127,8 @@ import router from './ou-vuex'
 
 ### 创建 vue 的插件
 
-回头看一下`store/index.js`，首先是使用`Vue.use()`注册了`Vuex`，然后再实例化了`Vuex.Store`这个类，因此`Vuex`这个对象里含 有一个`install`方法以及一个`Store`的类。
+回头看一下`store/index.js`，首先是使用`Vue.use()`注册了`Vuex`，然后再实例化了`Vuex.Store`这个类，因此`Vuex`这个对象里含
+有一个`install`方法以及一个`Store`的类。
 
 ```javascript
 import Vue from 'vue'
@@ -146,14 +147,13 @@ export default new Vuex.Store({
 ```javascript
 let Vue; // 保存Vue的构造函数，插件中需要用到
 
-class Store {
-}
+class Store {}
 
 function install(_Vue) {
   Vue = _Vue;
 }
 
-export default {Store, install};
+export default { Store, install };
 ```
 
 ### 挂载`$store`
@@ -161,8 +161,7 @@ export default {Store, install};
 ```javascript
 let Vue; // 保存Vue的构造函数，插件中需要用到
 
-class Store {
-}
+class Store {}
 
 function install(_Vue) {
   Vue = _Vue;
@@ -177,7 +176,7 @@ function install(_Vue) {
   });
 }
 
-export default {Store, install};
+export default { Store, install };
 ```
 
 ### 实现响应式保存`state`数据
@@ -219,8 +218,8 @@ class Store {
 
 ### 实现`commit`方法
 
-当我们使用`commit`方法时，都是`$store.commit(type,payload)`，第一个参数即`mutations`的`type`值，第二个是`payload`负载， 而对应`mutation`方法的参数为`state`
-和`payload`，因此我们来实现：
+当我们使用`commit`方法时，都是`$store.commit(type,payload)`，第一个参数即`mutations`的`type`值，第二个是`payload`负载，
+而对应`mutation`方法的参数为`state` 和`payload`，因此我们来实现：
 
 ```javascript
 class Store {
@@ -259,10 +258,11 @@ class Store {
 
 ### 实现`dispatch`方法
 
-`dispatch`方法跟`commit`方法大同小异，不同之处在于`dispatch`调用的是`action`异步函数，而`action`的参数 为`context`和`payload`，`payload`我们可以通过`dispatch`
-的参数获取到，而`context`执行上下文其实就是实例中的`this`。
+`dispatch`方法跟`commit`方法大同小异，不同之处在于`dispatch`调用的是`action`异步函数，而`action`的参数
+为`context`和`payload`，`payload`我们可以通过`dispatch` 的参数获取到，而`context`执行上下文其实就是实例中的`this`。
 
-但`action`是用来处理异步函数的，因此我们需要对`dispatch`方法进行`this`绑定；同时，`action`方法中有可能会调用到`commit`方 法，因此我们也需要对`commit`方法进行`this`绑定。
+但`action`是用来处理异步函数的，因此我们需要对`dispatch`方法进行`this`绑定；同时，`action`方法中有可能会调用到`commit`方
+法，因此我们也需要对`commit`方法进行`this`绑定。
 
 ```javascript
 class Store {
